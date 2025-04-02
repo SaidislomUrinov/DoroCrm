@@ -63,7 +63,7 @@ export default {
         if (password) user.password = await hashPass(password);
 
         if (image) {
-            const filePath = await uploadImage(image, 'user', `${user._id}_${getNow()}`);
+            const filePath = await uploadImage(image, 'user', user._id);
             if (user.image) await deleteFile(user.image);
             user.image = filePath;
         } else if (removeImage) {

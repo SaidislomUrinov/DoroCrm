@@ -224,5 +224,19 @@ export default {
                 });
             }
         }
+    },
+    //
+    companies: {
+        get: async (req, res) => {
+            try {
+                const { uId, page } = req.query;
+
+            } catch (error) {
+                return res.send({
+                    ok: false,
+                    msg: error.message
+                })
+            }
+        }
     }
 }

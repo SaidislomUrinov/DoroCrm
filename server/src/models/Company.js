@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { getNow } from "../utils/time.js";
+import Subscription from "./Subscription.js";
 
 const schema = new Schema({
     name: {
@@ -20,10 +21,15 @@ const schema = new Schema({
     status: {
         type: String,
         enum: ['active', 'inactive'],
-        default: 'active'
+        default: 'inactive'
     }
 });
-schema.methods.duration = () => {
-    return 0
+schema.methods.duration = async function () {
+    const subscribtion = await Subscription.findOne({ company: this._id });
+    return subscribtion ? subscribtion.duration : 0;
+}
+schema.methods.paymentStatus = async function () {
+    const subscribtion = await Subscription.findOne({ company: this._id });
+    return await subscribtion.paymentStatus()
 }
 export default model('Company', schema);

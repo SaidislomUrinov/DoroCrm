@@ -1,6 +1,7 @@
 import fs from "fs";
-import path from "path";
+// import path from "path";
 import sharp from "sharp";
+import { getNow } from "./time.js";
 
 /** 
  * @param {import('express-fileupload').UploadedFile} file Image file
@@ -26,7 +27,7 @@ export async function uploadImage(file, type, oId) {
     const uploadDir = `uploads/${folder}`;
     if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
-    const filePath = `${uploadDir}/${oId}.webp`;
+    const filePath = `${uploadDir}/${oId}_${getNow()}.webp`;
 
     await sharp(file.data).resize(300, 300).toFormat("webp").toFile(filePath);
 
