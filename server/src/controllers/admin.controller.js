@@ -79,10 +79,24 @@ export default {
             try {
                 const { page, id, phone } = req.query;
                 if (phone) {
+                    const users = await userService.getByPhone(ph(phone, { country: 'uz' }).phoneNumber);
 
+                    if (!users) throw new Error("User not found");
+
+                    return res.send({
+                        ok: true,
+                        data: users
+                    });
                 }
                 if (id) {
+                    const users = await userService.getById(id);
 
+                    if (!users) throw new Error("User not found");
+
+                    return res.send({
+                        ok: true,
+                        data: users
+                    });
                 }
                 if (page) {
                     const { pages, data } = await userService.getAll(page);

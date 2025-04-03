@@ -28,14 +28,15 @@ import {
   FaUser,
   FaUsersSlash,
 } from "react-icons/fa";
-import Search from "../../components/Search";
-import Loading from "../../components/Loading";
-import { API, getReq, postReq, putReq } from "../../utils/fetching";
-import { errorMsg, successMsg } from "../../utils/alert";
-import { BiDotsVertical, BiImageAdd } from "react-icons/bi";
+import Search from "../components/Search";
+import Loading from "../components/Loading";
+import { API, getReq, postReq, putReq } from "../utils/fetching";
+import { errorMsg, successMsg } from "../utils/alert";
+import { BiDotsVertical, BiImageAdd, BiRefresh } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { setMsg } from "../../contexts/cfg";
+import { setMsg } from "../contexts/cfg";
 import { FaMessage } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 function Users() {
   const dp = useDispatch();
@@ -44,6 +45,7 @@ function Users() {
   const [disabled, setDisabled] = useState(false);
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   // pagination
   const prevPage = () => {
     if (page > 1) setPage(page - 1);
@@ -73,10 +75,30 @@ function Users() {
         setLoad(true);
         dp(setMsg());
       });
-  }, [page]);
+  }, [page, refresh]);
   //search
   const [search, setSearch] = useState("");
-  const runSearch = () => {};
+  const runSearch = async () => {
+    try {
+      setLoad(false);
+      dp(setMsg("Searching users..."));
+      const params = {};
+
+      if (search.length === 13) params.phone = search;
+      if (search.length !== 13) params.id = search;
+
+      const res = await getReq("/admin/users", params);
+      const { ok, data, msg } = res.data;
+
+      if (!ok) throw new Error(msg);
+      setUsers(data);
+    } catch (error) {
+      errorMsg(error.message);
+    } finally {
+      dp(setMsg());
+      setLoad(true);
+    }
+  };
   // add
   const [add, setAdd] = useState({
     open: false,
@@ -206,6 +228,7 @@ function Users() {
       dp(setMsg());
     }
   };
+  const nv = useNavigate();
   return (
     <div className="flex items-start justify-start gap-[10px] flex-col w-full">
       {/* TOP */}
@@ -231,14 +254,21 @@ function Users() {
           </IconButton>
         </div>
         {/* ADD */}
-        <Button
-          variant={"gradient"}
-          onClick={() => setAdd({ ...add, open: true })}
-          className="md:hidden"
-        >
-          Add
-          <FaPlus />
-        </Button>
+        <div className="flex md:hidden items-center justify-center gap-[10px]">
+          <IconButton
+            className="rounded-full"
+            onClick={() => setRefresh(!refresh)}
+          >
+            <BiRefresh fontSize={20} />
+          </IconButton>
+          <Button
+            variant={"gradient"}
+            onClick={() => setAdd({ ...add, open: true })}
+          >
+            Add
+            <FaPlus />
+          </Button>
+        </div>
         {/* search bar */}
         <div className="flex items-center relative justify-center w-full md:w-[300px] lg:w-[500px]">
           <Search
@@ -249,14 +279,21 @@ function Users() {
           />
         </div>
         {/*  */}
-        <Button
-          variant={"gradient"}
-          onClick={() => setAdd({ ...add, open: true })}
-          className="hidden md:flex"
-        >
-          Add
-          <FaPlus />
-        </Button>
+        <div className="hidden md:flex items-center justify-center gap-[10px]">
+          <IconButton
+            className="rounded-full"
+            onClick={() => setRefresh(!refresh)}
+          >
+            <BiRefresh fontSize={20} />
+          </IconButton>
+          <Button
+            variant={"gradient"}
+            onClick={() => setAdd({ ...add, open: true })}
+          >
+            Add
+            <FaPlus />
+          </Button>
+        </div>
       </div>
       {/* !load */}
       {!load && <Loading />}
@@ -341,7 +378,10 @@ function Users() {
                         <FaEdit className="text-blue-500" fontSize={18} />
                         Edit
                       </MenuItem>
-                      <MenuItem className="text-black flex items-center justify-start gap-[10px] text-[14px]">
+                      <MenuItem
+                        onClick={() => nv("/companies?uid=" + u?._id)}
+                        className="text-black flex items-center justify-start gap-[10px] text-[14px]"
+                      >
                         <FaSuitcase className="text-indigo-500" fontSize={18} />
                         Companies
                       </MenuItem>

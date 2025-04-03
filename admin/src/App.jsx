@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 import Top from "./components/Top";
 import Socket from "./components/Socket";
 import { Route, Routes } from "react-router-dom";
-const Users = lazy(() => import("./pages/users/Users"));
+const Users = lazy(() => import("./pages/Users"));
 const Plans = lazy(() => import("./pages/Plans"));
 
 function App() {

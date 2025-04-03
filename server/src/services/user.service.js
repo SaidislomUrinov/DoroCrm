@@ -89,5 +89,37 @@ export default {
         const user = await User.findByIdAndUpdate(_id, { block }, { new: true });
         if (!user) throw new Error("User not found");
         return true;
+    },
+    getById: async (id) => {
+        const user = await User.findOne({ id });
+        if (!user) throw new Error("User not found");
+        return [{
+            _id: user._id,
+            id: user.id,
+            name: user.name,
+            phone: user.phone,
+            image: user.image,
+            createdAt: formatDate(user.createdAt, "DD.MM.YYYY"),
+            block: user.block,
+            products: await user.products('count'),
+            staffs: await user.staffs('count'),
+            companies: await user.companies('count'),
+        }]
+    },
+    getByPhone: async (phone) => {
+        const user = await User.findOne({ phone });
+        if (!user) throw new Error("User not found");
+        return [{
+            _id: user._id,
+            id: user.id,
+            name: user.name,
+            phone: user.phone,
+            image: user.image,
+            createdAt: formatDate(user.createdAt, "DD.MM.YYYY"),
+            block: user.block,
+            products: await user.products('count'),
+            staffs: await user.staffs('count'),
+            companies: await user.companies('count'),
+        }]
     }
 }
