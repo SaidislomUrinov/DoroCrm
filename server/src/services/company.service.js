@@ -79,9 +79,20 @@ export default {
         }
     },
     getByUserId: async (uId) => {
-        const companies = await Company.find({ user: uId }).sort({ createdAt: -1 });
+        const companies = await Company.find({ user: uId }).sort({ createdAt: -1 }).select('name image status');
         return {
             data: companies
         }
     },
+    getByName: async (name) => {
+        const companies = await Company.find({
+            name: { $regex: name, $options: 'i' }
+        }).sort({ createdAt: -1 }).select('name image status');
+        return {
+            data: companies
+        }
+    },
+    getById: async (companyId) => {
+
+    }
 };

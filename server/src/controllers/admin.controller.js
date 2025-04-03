@@ -1,4 +1,5 @@
 import Admin from "../models/Admin.js";
+import companyService from "../services/company.service.js";
 import planService from "../services/plan.service.js";
 import userService from "../services/user.service.js";
 import { phone as ph } from 'phone';
@@ -229,11 +230,59 @@ export default {
     companies: {
         get: async (req, res) => {
             try {
-                const { uId, page } = req.query;
+                const { uId, page, name, companyId } = req.query;
+
+                if (companyId) {
+                    const data = await companyService.getById(companyId);
+                    return res.send({
+                        ok: true,
+                        data
+                    });
+                };
+                if (uId) {
+                    const data = await companyService.getByUserId(uId);
+                    return res.send({
+                        ok: true,
+                        data: data.data
+                    });
+                };
+
+                if (name) {
+                    const data = await companyService.getByName(uId);
+                    return res.send({
+                        ok: true,
+                        data: data.data
+                    });
+                };
+
+                if (page) {
+                    const data = await companyService.getList(page);
+                    return res.send({
+                        ok: true,
+                        ...data
+                    });
+                };
 
             } catch (error) {
                 return res.send({
                     ok: false,
+                    msg: error.message
+                });
+            }
+        },
+        create: async (req, res) => {
+            try {
+                const body = req.body;
+                const image = req?.files?.image
+                const data = await companyService.create({ ...body, image });
+                return res.send({
+                    ok: true,
+                    msg: "Success",
+                    data
+                });
+            } catch (error) {
+                return res.send({
+                    ok: true,
                     msg: error.message
                 })
             }
