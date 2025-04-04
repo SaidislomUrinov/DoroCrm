@@ -17,7 +17,7 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { FaMessage, FaXmark } from "react-icons/fa6";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { errorMsg } from "../utils/alert";
 import { useDispatch, useSelector } from "react-redux";
 import { setMsg } from "../contexts/cfg";
@@ -25,7 +25,7 @@ import { postReq } from "../utils/fetching";
 const NavLink = ({ path = "", text = "", icon, notify = false }) => {
   const p = useLocation().pathname;
   const Icon = icon;
-  const isActive = p === path;
+  const isActive = p.startsWith(path);
   return (
     <Link
       className={`w-full relative min-h-max flex items-center hover:bg-slate-900 rounded-[8px] p-[10px] justify-start gap-[20px] ${
@@ -75,8 +75,10 @@ function Navbar() {
     }
   };
   const p = useLocation().pathname;
+  const nv = useNavigate();
   useEffect(() => {
     setOpen(false);
+    if (p === "/") nv("/dashboard");
   }, [p]);
   return (
     <>
@@ -107,7 +109,7 @@ function Navbar() {
         </div>
         {/* LINKS */}
         <div className="flex items-center justify-start flex-col w-full h-[90vh] overflow-y-scroll gap-[10px] p-[10px]">
-          <NavLink path="/" text="Dashboard" icon={BiSolidDashboard} />
+          <NavLink path="/dashboard" text="Dashboard" icon={BiSolidDashboard} />
           <NavLink path="/plans" text="Plans" icon={FaChartPie} />
           <NavLink path="/sales" text="Sales" icon={FaChartArea} />
           <NavLink path="/users" text="Users" icon={FaUsers} />

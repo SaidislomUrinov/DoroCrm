@@ -8,13 +8,16 @@ import Navbar from "./components/Navbar";
 import Top from "./components/Top";
 import Socket from "./components/Socket";
 import { Route, Routes } from "react-router-dom";
+import CompanyAdd from "./pages/companies/Add";
 const Users = lazy(() => import("./pages/Users"));
 const Plans = lazy(() => import("./pages/Plans"));
+const Companies = lazy(() => import("./pages/companies/Companies"));
 
 function App() {
   const dp = useDispatch();
   const [load, setLoad] = useState(false);
   const { _id } = useSelector((e) => e.user);
+
   useEffect(() => {
     getReq("/admin/verifyAccess")
       .then((res) => {
@@ -52,6 +55,10 @@ function App() {
             <Routes>
               <Route path="/users" element={<Users />} />
               <Route path="/plans" element={<Plans />} />
+              <Route path="/companies">
+                <Route path="" element={<Companies />} />
+                <Route path="add" element={<CompanyAdd />} />
+              </Route>
             </Routes>
           </Suspense>
         </div>

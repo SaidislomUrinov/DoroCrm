@@ -257,7 +257,9 @@ export default {
                     const data = await companyService.getByUserId(uId);
                     return res.send({
                         ok: true,
-                        data: data.data
+                        data: data.data,
+                        page: 1,
+                        pages: 1
                     });
                 };
 
@@ -265,7 +267,9 @@ export default {
                     const data = await companyService.getByName(uId);
                     return res.send({
                         ok: true,
-                        data: data.data
+                        data: data.data,
+                        page: 1,
+                        pages: 1
                     });
                 };
 

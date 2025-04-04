@@ -8,7 +8,7 @@ function Top() {
     <div className="flex items-center justify-between w-full px-[20px] bg-slate-800 h-[10vh]">
       <div className=""></div>
       <p className="uppercase font-semibold text-[20px] md:text-[30px] text-white">
-        {!p ? "Dashboard" : p}
+        {p?.split("/")?.[0]}
       </p>
       <div className="flex items-center justify-center gap-[10px]">
         <div className="flex items-center justify-center w-[30px] aspect-square rounded-full bg-gradient-to-br from-red-500 to-yellow-500">

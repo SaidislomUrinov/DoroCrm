@@ -22,4 +22,9 @@ router.route('/plans')
     .put(adminController.plans.edit)
     .delete(adminController.plans.delete)
 
+router.route('/companies')
+    .all(adminMiddleware.verifyAccess)
+    .get(adminController.companies.get)
+    .post(adminController.companies.create)
+
 export default router;

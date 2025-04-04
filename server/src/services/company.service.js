@@ -8,6 +8,7 @@ const paymentTypes = ['cash', 'click', 'payme'];
 
 export default {
     create: async ({ userId, name, image, planId, isPaid, paymentType, botToken, month }) => {
+        // 
         if (!userId || !name || !planId || typeof isPaid !== 'boolean') {
             throw new Error("Fill the rows");
         }
@@ -93,6 +94,11 @@ export default {
         }
     },
     getById: async (companyId) => {
+        const company = await Company.findById(companyId);
+        if (!company) throw new Error("Company not found");
 
+        return {
+
+        };
     }
 };
