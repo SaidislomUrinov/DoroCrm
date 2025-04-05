@@ -5,11 +5,12 @@ import { uploadImage } from "../utils/file.js";
 import { calculateMonths, getNow } from "../utils/time.js";
 
 const paymentTypes = ['cash', 'click', 'payme'];
+const companyTypes = ["fastfood", "retail", "store", "pharmacy"];
 
 export default {
-    create: async ({ userId, name, image, planId, isPaid, paymentType, botToken, month }) => {
+    create: async ({ userId, name, image, planId, isPaid, paymentType, botToken, month, companyType }) => {
         // 
-        if (!userId || !name || !planId || typeof isPaid !== 'boolean') {
+        if (!userId || !name || !planId || typeof isPaid !== 'boolean' || !companyTypes.includes(companyType)) {
             throw new Error("Fill the rows");
         }
 
