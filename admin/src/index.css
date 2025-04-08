@@ -9,7 +9,7 @@
 @tailwind utilities;
 
 body {
-    background: #fff;
+    background: #eff1f4;
 }
 
 button {
@@ -17,4 +17,31 @@ button {
     align-items: center;
     justify-content: center;
     gap: 4px;
+}
+
+input {
+    font-size: 18px !important;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #dcdcdc84;
+    /* Oqdan xira */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    /* Oq */
+    border-radius: 10px;
 }

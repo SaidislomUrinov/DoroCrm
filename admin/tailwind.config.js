@@ -20,6 +20,9 @@ export default withMT({
         }
       }
     },
+    fontFamily: {
+      'jet': '"JetBrains Mono", sans-serif'
+    }
   },
   plugins: [],
 });
