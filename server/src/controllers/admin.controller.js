@@ -1,6 +1,6 @@
 import Admin from "../models/Admin.js";
+import userService from "../services/user.service.js";
 
-import { phone as ph } from 'phone';
 export default {
     signIn: async (req, res) => {
         try {
@@ -71,4 +71,36 @@ export default {
             });
         }
     },
+    user: {
+        create: async (req, res) => {
+            try {
+                const user = await userService.create({ ...req.body, image: req?.files?.image || null });
+                return res.send({
+                    ok: true,
+                    msg: "Bajarildi",
+                    data: user
+                })
+            } catch (error) {
+                return res.send({
+                    ok: false,
+                    msg: error.message
+                })
+            }
+        },
+        list: async (req, res) => {
+            try {
+                const { page } = req.query;
+                const list = await userService.list(page);
+                return res.send({
+                    ok: true,
+                    ...list
+                })
+            } catch (error) {
+                return res.send({
+                    ok: false,
+                    msg: error.message
+                })
+            }
+        }
+    }
 }
