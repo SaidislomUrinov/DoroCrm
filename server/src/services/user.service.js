@@ -1,7 +1,7 @@
 import { phone as ph } from "phone";
 import User from "../models/User.js";
 import { hashPass } from "../utils/hash.js";
-import { uploadImage } from "../utils/file.js";
+import { deleteFile, uploadImage } from "../utils/file.js";
 import { formatDate } from "../utils/time.js";
 
 export default {
@@ -14,6 +14,9 @@ export default {
         if (!checkPhone.isValid) throw new Error("Raqamin to'g'ri kiriting!");
 
         if (!/^[A-z_.0-9]{5,}$/.test(password)) throw new Error("Parolda kamida 5 ta ishora bo'lsin!");
+
+        const checkUser = await User.findOne({ phone: checkPhone.phoneNumber });
+        if (checkUser) throw new Error("Ushbu raqam avval ishlatilgan!");
 
         const user = new User({
             name,
@@ -66,7 +69,7 @@ export default {
 
         return {
             pages,
-            page: +page,
+            page,
             data,
             total
         }
@@ -91,5 +94,46 @@ export default {
         };
 
         return data
+    },
+    edit: async (object) => {
+        const { name, _id, password, image, phone } = object;
+        if (!name || !_id || !phone) throw new Error("Majburiy qatorlarni to'ldiring!");
+
+        const checkPhone = ph(phone, { country: 'uz' });
+        if (!checkPhone.isValid) throw new Error("Raqamin to'g'ri kiriting!");
+
+        const user = await User.findById(_id);
+        if (!user) throw new Error("User topilmadi!");
+
+        const phoneExists = await User.findOne({ phone: checkPhone.phoneNumber });
+
+        if (phoneExists && phoneExists._id.toString() !== _id.toString()) {
+            throw new Error("Bu raqam boshqa foydalanuvchiga tegishli!");
+        }
+
+        if (user.phone !== checkPhone.phoneNumber) {
+            user.phone = checkPhone.phoneNumber;
+        }
+
+        if (image && user.image) {
+            await deleteFile(user.image);
+            const filePath = await uploadImage(image, 'user', _id);
+            user.image = filePath;
+        }
+
+        if (password) {
+            if (!/^[A-z_.0-9]{5,}$/.test(password)) throw new Error("Parolda kamida 5 ta ishora bo'lsin!");
+            user.password = await hashPass(password);
+        }
+
+        user.name = name;
+        await user.save();
+
+        return {
+            _id,
+            name,
+            phone: user.phone,
+            image: user.image
+        }
     }
 }

@@ -148,7 +148,7 @@ function List({ users }) {
                     <BiDotsVertical fontSize={20} />
                   </IconButton>
                 </MenuHandler>
-                <MenuList>
+                <MenuList className="shadow-[0_0_10px] shadow-[#00000059]">
                   <MenuItem
                     onClick={() => nv(`#edit-${u?._id}`)}
                     className="flex items-center justify-start gap-[10px]"

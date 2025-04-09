@@ -1,5 +1,4 @@
 import Admin from "../models/Admin.js";
-import userService from "../services/user.service.js";
 
 export default {
     signIn: async (req, res) => {
@@ -18,7 +17,7 @@ export default {
 
             return res.send({
                 ok: true,
-                msg: "Login successful",
+                msg: `Salomlar ${admin.name}`,
                 data: {
                     _id: admin?._id,
                     name: admin.name,
@@ -71,51 +70,4 @@ export default {
             });
         }
     },
-    user: {
-        create: async (req, res) => {
-            try {
-                const user = await userService.create({ ...req.body, image: req?.files?.image });
-                return res.send({
-                    ok: true,
-                    msg: "Bajarildi",
-                    data: user
-                })
-            } catch (error) {
-                return res.send({
-                    ok: false,
-                    msg: error.message
-                })
-            }
-        },
-        list: async (req, res) => {
-            try {
-                const { page } = req.query;
-                const list = await userService.list(page);
-                return res.send({
-                    ok: true,
-                    ...list
-                })
-            } catch (error) {
-                return res.send({
-                    ok: false,
-                    msg: error.message
-                })
-            }
-        },
-        search: async (req, res) => {
-            try {
-                const { search } = req.query;
-                const data = await userService.search(search);
-                return res.send({
-                    ok: true,
-                    data
-                });
-            } catch (error) {
-                return res.send({
-                    ok: false,
-                    msg: error.message
-                })
-            }
-        }
-    }
 }

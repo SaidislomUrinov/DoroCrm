@@ -16,6 +16,7 @@ import { FaXmark } from "react-icons/fa6";
 import Loading from "../../components/Loading";
 import Add from "./Add";
 import List from "./List";
+import Edit from "./Edit";
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -40,7 +41,7 @@ function Users() {
   const [isSearch, setIsSearch] = useState(false);
   const runSearch = async () => {
     try {
-      const res = await getReq("/admin/users/search", { search });
+      const res = await getReq("/user/search", { search });
       const { ok, data, msg } = res.data;
 
       if (!ok) throw new Error(msg);
@@ -62,7 +63,7 @@ function Users() {
   useEffect(() => {
     if (!isSearch) {
       setLoad(false);
-      getReq("/admin/users/list", { page })
+      getReq("/user/list", { page })
         .then((res) => {
           const { ok, data, pages, page, total } = res.data;
           if (!ok) {
@@ -187,6 +188,7 @@ function Users() {
       {load && users?.[0] && <List users={users} />}
       {/* ADD */}
       <Add setUsers={setUsers} page={page} setTotal={setTotal} />
+      <Edit users={users} setUsers={setUsers} />
       {/*  */}
     </div>
   );

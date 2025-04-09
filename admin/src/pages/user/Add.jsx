@@ -58,7 +58,7 @@ function Add({ setUsers, page, setTotal }) {
       f.append("password", password);
       if (image) f.append("image", image);
 
-      const res = await postReq("/admin/users/create", f);
+      const res = await postReq("/user/create", f);
       const { ok, data, msg } = res.data;
 
       if (!ok) throw new Error(msg);
