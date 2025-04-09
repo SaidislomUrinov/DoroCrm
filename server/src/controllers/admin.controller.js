@@ -74,7 +74,7 @@ export default {
     user: {
         create: async (req, res) => {
             try {
-                const user = await userService.create({ ...req.body, image: req?.files?.image || null });
+                const user = await userService.create({ ...req.body, image: req?.files?.image });
                 return res.send({
                     ok: true,
                     msg: "Bajarildi",

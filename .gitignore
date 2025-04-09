@@ -1,2 +1,13 @@
+# Node modules
 admin/node_modules/
 server/node_modules/
+
+# uploads ichidagi barcha fayllarni inkor qilamiz
+server/uploads/**/*
+# ammo quyidagi papkalarni o'zini qabul qilamiz
+!server/uploads/users/
+!server/uploads/staffs/
+!server/uploads/companies/
+!server/uploads/products/
+
+# Har bir papkada .gitkeep bo'lishi kerak

@@ -22,7 +22,7 @@ export default {
         });
 
         if (image) {
-            const filePath = await uploadImage(image);
+            const filePath = await uploadImage(image, 'user', user._id);
             user.image = filePath
         }
 

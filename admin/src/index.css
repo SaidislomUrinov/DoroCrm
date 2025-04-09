@@ -19,9 +19,7 @@ button {
     gap: 4px;
 }
 
-input {
-    font-size: 18px !important;
-}
+
 
 ::-webkit-scrollbar-button {
     display: none;
