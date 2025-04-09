@@ -101,6 +101,21 @@ export default {
                     msg: error.message
                 })
             }
+        },
+        search: async (req, res) => {
+            try {
+                const { search } = req.query;
+                const data = await userService.search(search);
+                return res.send({
+                    ok: true,
+                    data
+                });
+            } catch (error) {
+                return res.send({
+                    ok: false,
+                    msg: error.message
+                })
+            }
         }
     }
 }

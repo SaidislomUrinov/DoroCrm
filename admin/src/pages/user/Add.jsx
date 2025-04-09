@@ -190,7 +190,7 @@ function Add({ setUsers, page, setTotal }) {
         </DialogFooter>
       </Dialog>
       {/*  */}
-      <Dialog size="sm" open={show}>
+      <Dialog size="xs" open={show}>
         <DialogHeader className="relative">
           Natija
           <div className="absolute right-[5px]">
@@ -200,16 +200,17 @@ function Add({ setUsers, page, setTotal }) {
           </div>
         </DialogHeader>
         <DialogBody className="border-y result flex items-start justify-start flex-col gap-[10px]">
-          <p className="text-black font-normal text-[20px]">
-            <b>{form.name}</b> uchun profil ma'lumotlari
+          <p className="text-slate-800 font-normal w-full">
+            <b className="text-orange-500">{form.name}</b> uchun profil
+            ma'lumotlari
           </p>
-          <p className="text-black">
+          <p className="text-black font-normal">
             Raqam: <code className="font-semibold">{form.phone}</code>
           </p>
-          <p className="text-black">
+          <p className="text-black font-normal">
             Parol: <code className="font-semibold">{form.password}</code>
           </p>
-          <p className="text-center bg-slate-100 rounded-[10px] text-black font-bold">
+          <p className="text-center bg-slate-100 p-[10px] rounded-[10px] text-[13px] text-slate-800 font-bold">
             Diqqat ushbu raqam va parolni ma'lumotlaringiz xavfsizligi uchun
             faqat o'zingiz ishlating!
           </p>

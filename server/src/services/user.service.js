@@ -66,9 +66,30 @@ export default {
 
         return {
             pages,
-            page,
+            page: +page,
             data,
             total
         }
+    },
+    search: async (search) => {
+        if (!search) throw new Error("Sahifa kiritilmadi!");
+
+        const data = [];
+        const users = await User.find({ phone: { $regex: search, $options: "i" } }).sort({ created: -1 });
+        for (let user of users) {
+            data.push({
+                id: user.id,
+                _id: user._id,
+                name: user.name,
+                phone: user.phone,
+                image: user.image,
+                companies: 0,
+                staffs: 0,
+                products: 0,
+                created: formatDate(user.created)
+            })
+        };
+
+        return data
     }
 }
