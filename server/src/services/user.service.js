@@ -96,7 +96,7 @@ export default {
         return data
     },
     edit: async (object) => {
-        const { name, _id, password, image, phone } = object;
+        const { name, _id, password, image, phone, deleteImage } = object;
         if (!name || !_id || !phone) throw new Error("Majburiy qatorlarni to'ldiring!");
 
         const checkPhone = ph(phone, { country: 'uz' });
@@ -114,9 +114,14 @@ export default {
         if (user.phone !== checkPhone.phoneNumber) {
             user.phone = checkPhone.phoneNumber;
         }
-
-        if (image && user.image) {
+        if (deleteImage) {
             await deleteFile(user.image);
+            user.image = '';
+        }
+        if (image) {
+            if (user.image) {
+                await deleteFile(user.image);
+            }
             const filePath = await uploadImage(image, 'user', _id);
             user.image = filePath;
         }
