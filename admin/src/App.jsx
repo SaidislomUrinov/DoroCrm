@@ -8,7 +8,8 @@ import Navbar from "./components/Navbar";
 import Top from "./components/Top";
 import Socket from "./components/Socket";
 import { Route, Routes } from "react-router-dom";
-const Users = lazy(() => import("./pages/user/User"));
+const Users = lazy(() => import("./pages/users/Users"));
+const Plans = lazy(() => import("./pages/plans/Plans"));
 function App() {
   const { _id } = useSelector((e) => e.user);
   const dp = useDispatch();
@@ -39,6 +40,7 @@ function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/users" element={<Users />} />
+              <Route path="/plans" element={<Plans />} />
             </Routes>
           </Suspense>
         </div>
