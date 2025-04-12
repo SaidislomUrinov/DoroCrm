@@ -8,7 +8,7 @@ const schema = new Schema({
     catalogs: Number,
     staffs: Number,
     staffsSalary: Boolean,
-    uniqueBuyer: Boolean,
+    regularCustomer: Boolean,
     importFromExcel: Boolean,
     exportToExcel: Boolean,
     cashier: {
