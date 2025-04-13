@@ -6,6 +6,7 @@ import { Button } from "@material-tailwind/react";
 import { FaChartPie, FaPlusCircle } from "react-icons/fa";
 import Loading from "../../components/Loading";
 import Add from "./Add";
+import List from "./List";
 
 function Plans() {
   const [load, setLoad] = useState(false);
@@ -16,6 +17,7 @@ function Plans() {
     getReq("/plan/list")
       .then((res) => {
         const { ok, data } = res.data;
+        console.log(data);
         if (ok) {
           setPlans(data);
         }
@@ -56,7 +58,8 @@ function Plans() {
           </Button>
         </div>
       )}
-      {/*  */}
+      {load && plans?.[0] && <List setPlans={setPlans} plans={plans} />}
+
       <Add setPlans={setPlans} />
       {/*  */}
     </div>

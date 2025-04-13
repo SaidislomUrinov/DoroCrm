@@ -34,6 +34,8 @@ export default {
         await plan.save();
         return {
             ...plan.toObject(),
+            ordersViaTelegram: plan?.ordersViaTelegram === Infinity ? "infinity" : plan?.ordersViaTelegram,
+            products: plan?.products === Infinity ? "infinity" : plan?.products,
             activeCompanies: 0
         }
     },
@@ -43,9 +45,12 @@ export default {
         for (let plan of plans) {
             data.push({
                 ...plan.toObject(),
-                activeCompanies: await plan.activeCompanies()
+                activeCompanies: await plan.activeCompanies(),
+                ordersViaTelegram: plan?.ordersViaTelegram === Infinity ? "infinity" : plan?.ordersViaTelegram,
+                products: plan?.products === Infinity ? "infinity" : plan?.products,
             })
         }
+        return data
     },
     edit: async (object) => {
         const { _id, name, price, products, yearlyDiscount, catalogs, staffs, staffsSalary, regularCustomer, importFromExcel, exportToExcel, cashier, statistics, ordersViaTelegram, branding, apiIntegration, notifyViaTelegram, notifyViaSms, isPopular, unlimitProducts, unlimitOrdersViaTelegram } = object;
@@ -81,7 +86,9 @@ export default {
 
         return {
             ...plan.toObject(),
-            activeCompanies: await plan.activeCompanies()
+            activeCompanies: await plan.activeCompanies(),
+            ordersViaTelegram: plan?.ordersViaTelegram === Infinity ? "infinity" : plan?.ordersViaTelegram,
+            products: plan?.products === Infinity ? "infinity" : plan?.products,
         }
     },
 }
